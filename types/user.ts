@@ -3,3 +3,10 @@ export type User = {
   name: string;
   email: string;
 };
+
+export type Todo = {
+  title: string;
+  description: string;
+  completed?: boolean;
+  priority: string;
+};

@@ -14,6 +14,10 @@ export function Header() {
               Taska
             </Link>
           </h1>
+          <p className="text-muted-foreground text-center md:text-sm">
+          <span className="font-semibold">Built with:</span> Techstack NextJS (Server Actions), TailwindCSS, Shadcn UI, 
+          Mongoose + MonogDB Atlas, Zustand, Tanstack Query, Zod
+        </p>
         </div>
       </div>
     </nav>
