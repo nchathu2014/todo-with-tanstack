@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const users = [
-  { id: "1", name: "Alice Johnson", email: "alice.johnson@email.com" },
-  { id: "2", name: "Bob Smith", email: "bob.smith@email.com" },
-  { id: "3", name: "Charlie Brown", email: "charlie.brown@email.com" },
-  { id: "4", name: "Diana Prince", email: "diana.prince@email.com" },
-  { id: "5", name: "Ethan Hunt", email: "ethan.hunt@email.com" },
-  { id: "6", name: "Fiona Green", email: "fiona.green@email.com" },
-  { id: "7", name: "George Miller", email: "george.miller@email.com" },
-  { id: "8", name: "Hannah White", email: "hannah.white@email.com" },
-  { id: "9", name: "Ivan Black", email: "ivan.black@email.com" },
-  { id: "10", name: "Julia Roberts", email: "julia.roberts@email.com" },
+  { id: 1, name: "Alice Johnson", email: "alice.johnson@email.com" },
+  { id: 2, name: "Bob Smith", email: "bob.smith@email.com" },
+  { id: 3, name: "Charlie Brown", email: "charlie.brown@email.com" },
 ];
 
 export async function GET(request: NextRequest) {
@@ -20,9 +13,53 @@ export async function GET(request: NextRequest) {
       state: "success",
       data: {
         users,
-        total: users?.length
+        total: users?.length,
       },
     },
     { status: 200 },
   );
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const { name, email } = await request.json();
+    if (!name || !email) {
+      return NextResponse.json(
+        {
+          status: "fail",
+          data: {
+            message: "Both fields are mandatory",
+          },
+        },
+        { status: 400 },
+      );
+    }
+
+    const user = {
+      id: Date.now(),
+      name,
+      email,
+    };
+
+    users?.push(user);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return NextResponse.json(
+      {
+        status: "success",
+        data: {
+          message: "User added successfully!",
+          user,
+        },
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        status: "error",
+        error,
+      },
+      { status: 500 },
+    );
+  }
 }
