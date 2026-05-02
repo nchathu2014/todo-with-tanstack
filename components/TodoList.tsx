@@ -50,7 +50,7 @@ export default function TodoList() {
           <p className="text-muted-foreground">
             {todos?.length === 0
               ? "No tasks yet, Create first one"
-              : "No todos matched"}
+              : "No tasks matched"}
           </p>
         </CardContent>
       </Card>
