@@ -13,8 +13,8 @@ interface TodoState {
   setFilter: (filter: string) => void;
   setLoading: (isLoading: boolean) => void;
   filteredTodos: () => Todo[];
-  completedCount: () => void;
-  activeCount: () => void;
+  completedCount: () => number;
+  activeCount: () => number;
 }
 
 export const useTodoStore = create<TodoState>()(
