@@ -38,4 +38,4 @@ const TodoSchema = new mongoose.Schema(
   },
 );
 
-export const Todo = mongoose.models.Todo || mongoose.model("Task", TodoSchema);
+export const Todo = mongoose.models.Todo || mongoose.model("Todo", TodoSchema);

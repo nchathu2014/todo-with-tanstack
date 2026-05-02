@@ -10,11 +10,14 @@ interface TodoState {
   addTodo: (todo: Todo) => void;
   setFilter: (filter: string) => void;
   setLoading: (isLoading: boolean) => void;
+  filteredTodos: () => Todo[];
+  completedCount: () => number;
+  activeCount: () => number;
 }
 
 export const useTodoStore = create<TodoState>()(
   devtools(
-    (set) => ({
+    (set, get) => ({
       todos: [] as Todo[],
       filter: "all",
       isLoading: false,
@@ -26,6 +29,21 @@ export const useTodoStore = create<TodoState>()(
         })),
       setFilter: (filter: string) => set({ filter }),
       setLoading: (isLoading: boolean) => set({ isLoading }),
+      filteredTodos: () => {
+        const { todos, filter } = get();
+        switch (filter) {
+          case "active":
+            return todos?.filter((todo) => !todo.completed);
+
+          case "completed":
+            return todos?.filter((todo) => todo.completed);
+
+          default:
+            return todos;
+        }
+      },
+      completedCount: () => get().todos.filter((todo) => todo.completed).length,
+      activeCount: () => get().todos.filter((todo) => !todo.completed).length,
     }),
     { name: "todo-store" },
   ),

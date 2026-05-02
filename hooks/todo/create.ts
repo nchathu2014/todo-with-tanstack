@@ -1,8 +1,7 @@
-import { createTodo } from "@/actions/todo-actions";
+import { createTodo, fetchAllTodos } from "@/actions/todo-actions";
 import { useTodoStore } from "@/store/todo-store";
 import { Todo } from "@/types/user";
-import { createTodoSchema } from "@/validations/todo";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const todoKeys = {
   all: ["todo"],
@@ -25,3 +24,21 @@ export function useCreateTodo() {
     },
   });
 }
+
+export const useFetchTodos = () => {
+  const setTodos = useTodoStore((state) => state.setTodos);
+
+  return useQuery({
+    queryKey: todoKeys.lists(),
+    queryFn: async () => {
+      const results = await fetchAllTodos();
+      if (results?.status === "success") {
+        //update the zustand store
+        setTodos(results?.data?.todos);
+        return results?.data;
+      }
+
+      throw new Error(results?.error);
+    },
+  });
+};

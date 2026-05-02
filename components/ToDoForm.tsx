@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { createTodoSchema, FormValues } from "@/validations/todo";
+import { createTodoSchema } from "@/validations/todo";
 import { useCreateTodo } from "@/hooks/todo/create";
 import { toast } from "sonner";
 
@@ -32,7 +32,7 @@ export default function ToDoForm() {
     },
   });
 
-  const handleOnSubmit = async (data:any) => {
+  const handleOnSubmit = async (data: any) => {
     try {
       const result = await createTodoMutation.mutateAsync(data);
       if (result.status === "success") {
@@ -56,9 +56,9 @@ export default function ToDoForm() {
   }
 
   return (
-    <Card>
+    <Card className="shadow-sm">
       <CardHeader>
-        <CardTitle>Create New Todo</CardTitle>
+        <CardTitle className="text-lg">Create New Todo</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -66,7 +66,7 @@ export default function ToDoForm() {
           className="space-y-4"
         >
           <div>
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title" className="mb-2">Title <span className="text-red-500">*</span></Label>
             <Input
               id="title"
               {...form.register("title")}
@@ -80,7 +80,7 @@ export default function ToDoForm() {
           </div>
 
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" className="mb-2">Description</Label>
             <Textarea
               id="description"
               {...form.register("description")}
@@ -93,7 +93,7 @@ export default function ToDoForm() {
             )}
           </div>
 
-          <div>
+          <div className="flex gap-2">
             <Label htmlFor="priority">Priority</Label>
             <Select
               value={form.watch("priority")}
@@ -118,7 +118,7 @@ export default function ToDoForm() {
             )}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-10">
             <Button type="submit" disabled={createTodoMutation.isPending}>
               {createTodoMutation.isPending ? "Creating..." : "Create Todo"}
             </Button>

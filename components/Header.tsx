@@ -16,7 +16,7 @@ export function Header() {
           </h1>
           <p className="text-muted-foreground text-center md:text-sm">
           <span className="font-semibold">Built with:</span> Techstack NextJS (Server Actions), TailwindCSS, Shadcn UI, 
-          Mongoose + MonogDB Atlas, Zustand, Tanstack Query, Zod
+          Mongoose + MonogDB Atlas, Zustand, Tanstack Query, Zod, React-Hook-Forms
         </p>
         </div>
       </div>

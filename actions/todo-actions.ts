@@ -28,7 +28,24 @@ export async function createTodo(todo: TodoType) {
   }
 }
 
-export async function fetchAllTodos() {}
+export async function fetchAllTodos() {
+  try {
+    await dbConnect();
+    const todos = await Todo.find({}).sort({ createdAt: -1 }).lean();
+    return {
+      status: "success",
+      data: {
+        todos: JSON.parse(JSON.stringify(todos)),
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching todos", error);
+    return {
+      status: "error",
+      error: error instanceof Error ? error.message : ERRORS.SERVER.MESSAGE,
+    };
+  }
+}
 
 export async function fetchOneTodo(id: string) {}
 

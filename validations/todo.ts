@@ -17,5 +17,3 @@ export const createTodoSchema = z.object({
     ])
     .default(MESSAGES.PRIORITY.MEDIUM),
 });
-
-export type FormValues = z.infer<typeof createTodoSchema>;
