@@ -78,4 +78,19 @@ export async function fetchOneTodo(id: string) {}
 
 export async function updateTodo(id: string) {}
 
-export async function deleteTodo(id: string) {}
+export async function deleteTodo(id: string) {
+  try {
+    await dbConnect();
+    const todoDeleted = await Todo.findByIdAndDelete(id);
+    revalidatePath("/");
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(todoDeleted)),
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: "Something went wrong",
+    };
+  }
+}

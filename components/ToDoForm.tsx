@@ -36,7 +36,7 @@ export default function ToDoForm() {
     try {
       const result = await createTodoMutation.mutateAsync(data);
       if (result.status === "success") {
-        toast.success("Todo created successfully");
+        toast.success("Task created successfully");
         form.reset();
         setIsOpen(false);
       } else {
@@ -50,7 +50,7 @@ export default function ToDoForm() {
   if (!isOpen) {
     return (
       <Button className="w-full mb-6" size="lg" onClick={() => setIsOpen(true)}>
-        Add New Todo
+        Add New Task
       </Button>
     );
   }
@@ -58,7 +58,7 @@ export default function ToDoForm() {
   return (
     <Card className="shadow-sm">
       <CardHeader>
-        <CardTitle className="text-lg">Create New Todo</CardTitle>
+        <CardTitle className="text-lg">Create New Task</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -111,16 +111,16 @@ export default function ToDoForm() {
               </SelectContent>
             </Select>
 
-            {form.formState.errors.title && (
+            {/* {form.formState.errors.title && (
               <p className="text-sm text-destructive mt-1">
                 {form.formState.errors.title.message}
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="flex gap-2 mt-10">
             <Button type="submit" disabled={createTodoMutation.isPending}>
-              {createTodoMutation.isPending ? "Creating..." : "Create Todo"}
+              {createTodoMutation.isPending ? "Creating..." : "Create Task"}
             </Button>
             <Button
               type="button"

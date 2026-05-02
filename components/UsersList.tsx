@@ -19,7 +19,7 @@ export default function UsersList() {
   if (isError) return <div className="p-4 text-red-500">{error?.message}</div>;
   const users = data?.data?.users;
 
-  console.log(users)
+
 
   return (
     <Card>

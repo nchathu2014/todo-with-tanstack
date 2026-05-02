@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export const addUser = async (userData: { name: string; email: string }) => {
-  console.log(userData);
   const response = await fetch("/api/v1/users", {
     method: "POST",
     headers: {

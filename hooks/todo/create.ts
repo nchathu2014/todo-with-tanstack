@@ -1,4 +1,9 @@
-import { createTodo, fetchAllTodos, toggleTodo } from "@/actions/todo-actions";
+import {
+  createTodo,
+  deleteTodo,
+  fetchAllTodos,
+  toggleTodo,
+} from "@/actions/todo-actions";
 import { useTodoStore } from "@/store/todo-store";
 import { Todo } from "@/types/user";
 import {
@@ -58,6 +63,23 @@ export const useToggleTodo = () => {
       if (result.success) {
         const { _id } = result?.data;
         updateTodoInStore(_id, { completed: result?.data.completed });
+        queryClient.invalidateQueries({ queryKey: todoKeys.lists() });
+      }
+    },
+  });
+};
+
+export const useDeleteTodo = () => {
+  const queryClient = useQueryClient();
+  const deleteTodoInStore = useTodoStore((state) => state.deleteTodo);
+
+  return useMutation({
+    mutationFn: (id: string) => deleteTodo(id),
+    onSuccess: (result) => {
+      if (result.success) {
+        console.log("@@@", result);
+        const { _id } = result?.data;
+        deleteTodoInStore(_id);
         queryClient.invalidateQueries({ queryKey: todoKeys.lists() });
       }
     },

@@ -8,15 +8,22 @@ import { cn } from "@/lib/utils";
 import { Todo } from "@/types/user";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getPriorityColor } from "@/utils/helpers";
-import { useToggleTodo } from "@/hooks/todo/create";
+import { useDeleteTodo, useToggleTodo } from "@/hooks/todo/create";
 import { toast } from "sonner";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleting] = useState(false);
   const toggleMutation = useToggleTodo();
+  const deleteMutation = useDeleteTodo();
 
-  const handleChange = () => {};
-  const handleDelete = () => {};
+  const handleDelete = async() => {
+    try {
+      const result = await deleteMutation.mutateAsync(todo?._id!);
+      if(!result.success) toast.error(result.error ?? "Something went wrong");
+    } catch (error) {
+      toast.error("Failed to update");
+    }
+  };
 
   const handleToggle = async () => {
     try {
@@ -31,7 +38,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     <Card
       className={cn(
         "transition-all duration-200 hover:shadow-md",
-        todo?.completed && "opacity-75",
+        todo?.completed && "opacity-75 bg-gray-300 border border-amber-200",
       )}
     >
       <CardContent className="p-4">
@@ -39,7 +46,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
           <Checkbox
             checked={todo?.completed}
             onCheckedChange={handleToggle}
-            //disabled={toggleMutation.isPending}
+            disabled={toggleMutation.isPending}
             className="mt-1"
           />
 
@@ -84,7 +91,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
               variant="ghost"
               size="sm"
               onClick={handleDelete}
-              //disabled={deleteMutation.isPending}
+              disabled={deleteMutation.isPending}
               className={cn(
                 "h-8 w-8 p-0",
                 isDeleting && "bg-destructive text-destructive-foreground",
