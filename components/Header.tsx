@@ -5,7 +5,7 @@ export function Header() {
   return (
     <nav className="bg-gray-50 shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center p-3">
+        <div className="flex flex-col  justify-between items-center p-3">
           <h1>
             <Link
               href={BASE_URL}
@@ -14,10 +14,7 @@ export function Header() {
               Taska
             </Link>
           </h1>
-          <p className="text-muted-foreground text-center md:text-sm">
-          <span className="font-semibold">Built with:</span> Techstack NextJS (Server Actions), TailwindCSS, Shadcn UI, 
-          Mongoose + MonogDB Atlas, Zustand, Tanstack Query, Zod, React-Hook-Forms
-        </p>
+         
         </div>
       </div>
     </nav>
