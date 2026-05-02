@@ -14,7 +14,7 @@ export default function TodoList() {
   const filteredTodos = useTodoStore(useShallow((state) => state.filteredTodos()));
   const todos = data?.todos??[];
 
-  console.log(todos);
+  console.log(filteredTodos);
 
 
 

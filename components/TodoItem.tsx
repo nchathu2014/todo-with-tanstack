@@ -8,13 +8,24 @@ import { cn } from "@/lib/utils";
 import { Todo } from "@/types/user";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getPriorityColor } from "@/utils/helpers";
+import { useToggleTodo } from "@/hooks/todo/create";
+import { toast } from "sonner";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
-
-    const [isDeleting,setIsDeleting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false);
+  const toggleMutation = useToggleTodo();
 
   const handleChange = () => {};
   const handleDelete = () => {};
+
+  const handleToggle = async () => {
+    try {
+      const result = await toggleMutation.mutateAsync(todo?._id!);
+      if (!result.success) toast.error(result.error ?? "Something went wrong");
+    } catch (error) {
+      toast.error("Failed to update");
+    }
+  };
 
   return (
     <Card
@@ -27,7 +38,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
         <div className="flex items-start gap-3">
           <Checkbox
             checked={todo?.completed}
-            onCheckedChange={handleChange}
+            onCheckedChange={handleToggle}
             //disabled={toggleMutation.isPending}
             className="mt-1"
           />
@@ -74,7 +85,10 @@ export default function TodoItem({ todo }: { todo: Todo }) {
               size="sm"
               onClick={handleDelete}
               //disabled={deleteMutation.isPending}
-              className={cn("h-8 w-8 p-0",isDeleting && "bg-destructive text-destructive-foreground")}
+              className={cn(
+                "h-8 w-8 p-0",
+                isDeleting && "bg-destructive text-destructive-foreground",
+              )}
             >
               <Trash2 className="w-4 h-4" />
             </Button>

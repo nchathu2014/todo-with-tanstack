@@ -8,11 +8,12 @@ interface TodoState {
   isLoading: boolean;
   setTodos: (todos: Todo[]) => void;
   addTodo: (todo: Todo) => void;
+  updateTodo: (id: string, updates: { completed: boolean }) => void;
   setFilter: (filter: string) => void;
   setLoading: (isLoading: boolean) => void;
   filteredTodos: () => Todo[];
-  completedCount: () => number;
-  activeCount: () => number;
+  completedCount: () => void;
+  activeCount: () => void;
 }
 
 export const useTodoStore = create<TodoState>()(
@@ -26,6 +27,12 @@ export const useTodoStore = create<TodoState>()(
       addTodo: (todo: Todo) =>
         set((state) => ({
           todos: [todo, ...state.todos],
+        })),
+      updateTodo: (id, updates) =>
+        set((state) => ({
+          todos: state.todos.map((todo) =>
+            todo._id === id ? { ...todo, ...updates } : todo,
+          ),
         })),
       setFilter: (filter: string) => set({ filter }),
       setLoading: (isLoading: boolean) => set({ isLoading }),

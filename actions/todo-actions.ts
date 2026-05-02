@@ -47,6 +47,33 @@ export async function fetchAllTodos() {
   }
 }
 
+export async function toggleTodo(id: string) {
+  try {
+    await dbConnect();
+
+    const todo = await Todo.findById(id);
+    if (!todo) {
+      return {
+        success: false,
+        error: "Todo not found",
+      };
+    }
+
+    todo.completed = !todo.completed;
+    await todo.save();
+    revalidatePath("/");
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(todo)),
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: "Something went wrong",
+    };
+  }
+}
+
 export async function fetchOneTodo(id: string) {}
 
 export async function updateTodo(id: string) {}

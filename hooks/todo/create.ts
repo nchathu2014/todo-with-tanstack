@@ -1,7 +1,12 @@
-import { createTodo, fetchAllTodos } from "@/actions/todo-actions";
+import { createTodo, fetchAllTodos, toggleTodo } from "@/actions/todo-actions";
 import { useTodoStore } from "@/store/todo-store";
 import { Todo } from "@/types/user";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export const todoKeys = {
   all: ["todo"],
@@ -39,6 +44,22 @@ export const useFetchTodos = () => {
       }
 
       throw new Error(results?.error);
+    },
+  });
+};
+
+export const useToggleTodo = () => {
+  const queryClient = useQueryClient();
+  const updateTodoInStore = useTodoStore((state) => state.updateTodo);
+
+  return useMutation({
+    mutationFn: (id: string) => toggleTodo(id),
+    onSuccess: (result) => {
+      if (result.success) {
+        const { _id } = result?.data;
+        updateTodoInStore(_id, { completed: result?.data.completed });
+        queryClient.invalidateQueries({ queryKey: todoKeys.lists() });
+      }
     },
   });
 };
