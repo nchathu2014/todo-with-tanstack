@@ -45,7 +45,7 @@ export default function TodoList() {
     return (
       <Card>
         <CardContent className="p-8 text-center">
-          <Loader2 className="text-muted-foreground" />
+          {/* <Loader2 className="text-muted-foreground" /> */}
 
           <p className="text-muted-foreground">
             {todos?.length === 0
