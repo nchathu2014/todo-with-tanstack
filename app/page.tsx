@@ -10,7 +10,7 @@ export default function Home() {
   dbConnect();
   return (
     <div className="min-h-screen bg-background">
-      <p className="mt-5 text-muted-foreground text-center ">
+      <p className="mt-5 text-muted-foreground text-center w-2xl mx-auto">
         <span className="font-semibold">Built with:</span> Techstack NextJS
         (Server Actions), TailwindCSS, Shadcn UI, Mongoose + MonogDB Atlas,
         Zustand, Tanstack Query, Zod, React-Hook-Forms
